@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>РобоМастер — школа робототехники и программирования для детей</title>
+<meta name="description" content="Робототехника и программирование для детей 6–16 лет. Мини-группы, LEGO, пробное занятие бесплатно.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07091a;--bg2:#0d1130;--card:rgba(255,255,255,.05);--line:rgba(255,255,255,.1);
+  --text:#e9ecff;--mute:#9aa3d0;--a:#6c5cff;--b:#00e0ff;--c:#ff4fd8;--ok:#3dffb0;
+  --grad:linear-gradient(120deg,var(--a),var(--b));
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font:16px/1.6 Inter,system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3{font-family:Unbounded,Inter,sans-serif;line-height:1.1}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+section{padding:110px 0;position:relative}
+.tag{display:inline-block;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--b);margin-bottom:16px}
+h2{font-size:clamp(28px,4vw,48px);font-weight:700;margin-bottom:20px}
+.lead{color:var(--mute);max-width:640px;font-size:18px}
+.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* progress + cursor glow */
+#bar{position:fixed;top:0;left:0;height:3px;width:0;background:var(--grad);z-index:100}
+#glow{position:fixed;width:500px;height:500px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(108,92,255,.22),transparent 65%);transform:translate(-50%,-50%);left:50%;top:30%}
+
+/* nav */
+header{position:fixed;top:0;left:0;right:0;z-index:50;transition:.3s}
+header.s{background:rgba(7,9,26,.75);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{font-family:Unbounded;font-weight:800;font-size:20px;display:flex;align-items:center;gap:10px}
+.logo i{width:30px;height:30px;border-radius:9px;background:var(--grad);display:grid;place-items:center;font-style:normal;font-size:16px}
+.menu{display:flex;gap:30px;font-size:15px;color:var(--mute)}
+.menu a{position:relative;transition:.2s}
+.menu a:hover{color:#fff}
+.menu a::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:var(--grad);transition:.3s}
+.menu a:hover::after{width:100%}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:14px;font-weight:600;border:0;cursor:pointer;color:#fff;
+  background:var(--grad);font-size:16px;font-family:inherit;position:relative;overflow:hidden;transition:transform .2s,box-shadow .3s;box-shadow:0 10px 40px -10px var(--a)}
+.btn:hover{transform:translateY(-3px);box-shadow:0 18px 50px -10px var(--b)}
+.btn.ghost{background:transparent;border:1px solid var(--line);box-shadow:none}
+.btn.ghost:hover{border-color:var(--b)}
+.burger{display:none;background:none;border:0;color:#fff;font-size:28px;cursor:pointer}
+
+/* hero */
+#hero{min-height:100vh;display:flex;align-items:center;padding-top:110px;overflow:hidden}
+#net{position:absolute;inset:0;width:100%;height:100%}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;position:relative;z-index:1}
+.pill{display:inline-flex;gap:10px;align-items:center;padding:8px 16px;border:1px solid var(--line);border-radius:99px;background:var(--card);font-size:14px;color:var(--mute);margin-bottom:26px}
+.pill b{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 var(--ok);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px transparent}100%{box-shadow:0 0 0 0 transparent}}
+h1{font-size:clamp(34px,5.4vw,70px);font-weight:800;margin-bottom:26px}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap;margin-top:36px}
+.stats{display:flex;gap:44px;margin-top:56px;flex-wrap:wrap}
+.stats b{font-family:Unbounded;font-size:34px;display:block}
+.stats span{color:var(--mute);font-size:14px}
+
+/* robot */
+.robot{width:100%;max-width:440px;margin:auto;animation:float 5s ease-in-out infinite;filter:drop-shadow(0 30px 60px rgba(108,92,255,.5))}
+@keyframes float{50%{transform:translateY(-22px)}}
+.eye{animation:blink 5s infinite;transform-origin:center;transform-box:fill-box}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.ant{animation:ant 1.6s infinite}
+@keyframes ant{50%{fill:var(--c);r:9}}
+.arm{transform-box:fill-box;transform-origin:top center;animation:wave 2.4s ease-in-out infinite}
+@keyframes wave{50%{transform:rotate(-24deg)}}
+.ring{transform-origin:center;transform-box:fill-box;animation:spin 18s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* marquee */
+.marquee{border-block:1px solid var(--line);overflow:hidden;padding:22px 0;background:rgba(255,255,255,.02)}
+.track{display:flex;gap:60px;width:max-content;animation:mq 30s linear infinite;font-family:Unbounded;font-size:22px;color:var(--mute);white-space:nowrap}
+.track span::before{content:"✦";color:var(--b);margin-right:60px}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* cards */
+.grid{display:grid;gap:22px;margin-top:50px}
+.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:32px;position:relative;overflow:hidden;
+  transition:transform .25s,border-color .3s;transform-style:preserve-3d}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(400px circle at var(--mx,50%) var(--my,0%),rgba(0,224,255,.14),transparent 45%);opacity:0;transition:.3s}
+.card:hover{border-color:rgba(0,224,255,.4)}
+.card:hover::before{opacity:1}
+.ico{width:56px;height:56px;border-radius:16px;background:var(--grad);display:grid;place-items:center;font-size:26px;margin-bottom:22px}
+.card h3{font-size:19px;margin-bottom:12px}
+.card p{color:var(--mute);font-size:15px}
+.big{padding:44px}
+.big h3{font-size:26px}
+.price{font-family:Unbounded;font-size:40px;margin:22px 0 4px}
+.price small{font-size:15px;color:var(--mute);font-family:Inter}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.chips span{font-size:13px;padding:6px 14px;border-radius:99px;border:1px solid var(--line);color:var(--mute)}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:60px;position:relative}
+.steps::before{content:"";position:absolute;top:34px;left:6%;right:6%;height:2px;background:repeating-linear-gradient(90deg,var(--line) 0 8px,transparent 8px 16px)}
+.step{text-align:center;position:relative}
+.step i{width:68px;height:68px;border-radius:50%;background:var(--bg2);border:2px solid var(--b);display:grid;place-items:center;
+  margin:0 auto 20px;font:700 22px Unbounded;font-style:normal;box-shadow:0 0 30px -4px var(--b)}
+.step h3{font-size:17px;margin-bottom:8px}.step p{color:var(--mute);font-size:14px}
+
+/* reasons */
+.reason{display:flex;gap:18px;align-items:flex-start}
+.reason b{font:800 28px Unbounded;min-width:46px}
+
+/* form */
+.formbox{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;padding:56px;border-radius:32px;
+  background:linear-gradient(135deg,rgba(108,92,255,.25),rgba(0,224,255,.1));border:1px solid var(--line)}
+form{display:grid;gap:14px}
+input,select{width:100%;padding:16px 18px;border-radius:14px;border:1px solid var(--line);background:rgba(7,9,26,.7);color:#fff;font:inherit;outline:0;transition:.2s}
+input:focus,select:focus{border-color:var(--b);box-shadow:0 0 0 4px rgba(0,224,255,.15)}
+label.ck{font-size:13px;color:var(--mute);display:flex;gap:10px;align-items:flex-start}
+label.ck input{width:auto;margin-top:4px}
+#ok{display:none;color:var(--ok);font-weight:600}
+
+footer{border-top:1px solid var(--line);padding:50px 0;color:var(--mute);font-size:14px}
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(40px);transition:opacity .8s,transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+@media(max-width:960px){
+  .hero-grid,.formbox,.g2{grid-template-columns:1fr}
+  .g3,.g4,.steps{grid-template-columns:1fr 1fr}
+  .steps::before{display:none}
+  .menu{position:fixed;inset:72px 0 auto 0;flex-direction:column;background:var(--bg2);padding:24px;gap:20px;transform:translateY(-130%);transition:.4s}
+  .menu.open{transform:none}
+  .burger{display:block}
+  nav .btn{display:none}
+  .robot{max-width:300px}
+  .formbox{padding:30px}
+}
+@media(max-width:600px){.g3,.g4,.steps{grid-template-columns:1fr}section{padding:80px 0}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div id="bar"></div><div id="glow"></div>
+
+<header id="hd"><div class="wrap"><nav>
+  <a href="#hero" class="logo"><i>🤖</i>РобоМастер</a>
+  <div class="menu" id="menu">
+    <a href="#about">О школе</a><a href="#courses">Направления</a><a href="#lessons">Как проходят занятия</a>
+    <a href="#why">Преимущества</a><a href="#contact">Контакты</a>
+  </div>
+  <a href="#contact" class="btn">Записаться</a>
+  <button class="burger" id="bg" aria-label="Меню">☰</button>
+</nav></div></header>
+
+<section id="hero"><canvas id="net"></canvas>
+<div class="wrap hero-grid">
+  <div>
+    <div class="pill"><b></b>Набор открыт · пробное занятие бесплатно</div>
+    <h1>Робототехника и <span class="grad">программирование</span> для детей</h1>
+    <p class="lead">Ребёнок собирает роботов из LEGO, пишет код и учится мыслить как инженер будущего — в мини-группах и в игровой форме.</p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn">Пробное бесплатно →</a>
+      <a href="#courses" class="btn ghost">Смотреть программы</a>
+    </div>
+    <div class="stats">
+      <div><b data-n="200">0</b><span>роботов на курсе</span></div>
+      <div><b data-n="8">0</b><span>детей в группе максимум</span></div>
+      <div><b data-n="4">0</b><span>года программы</span></div>
+    </div>
+  </div>
+  <svg class="robot" viewBox="0 0 400 440" aria-hidden="true">
+    <defs>
+      <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6c5cff"/><stop offset="1" stop-color="#00e0ff"/></linearGradient>
+      <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b2160"/><stop offset="1" stop-color="#0d1130"/></linearGradient>
+    </defs>
+    <circle class="ring" cx="200" cy="220" r="190" fill="none" stroke="url(#g)" stroke-width="1.5" stroke-dasharray="6 14" opacity=".6"/>
+    <line x1="200" y1="40" x2="200" y2="82" stroke="#9aa3d0" stroke-width="5"/>
+    <circle class="ant" cx="200" cy="34" r="7" fill="#00e0ff"/>
+    <rect x="95" y="80" width="210" height="150" rx="44" fill="url(#g2)" stroke="url(#g)" stroke-width="4"/>
+    <rect x="125" y="122" width="150" height="66" rx="30" fill="#05071a"/>
+    <ellipse class="eye" cx="167" cy="155" rx="15" ry="19" fill="#00e0ff"/>
+    <ellipse class="eye" cx="233" cy="155" rx="15" ry="19" fill="#00e0ff"/>
+    <rect x="70" y="124" width="14" height="60" rx="7" fill="url(#g)"/><rect x="316" y="124" width="14" height="60" rx="7" fill="url(#g)"/>
+    <rect x="120" y="248" width="160" height="130" rx="34" fill="url(#g2)" stroke="url(#g)" stroke-width="4"/>
+    <circle cx="200" cy="312" r="26" fill="none" stroke="#ff4fd8" stroke-width="4"/><circle cx="200" cy="312" r="9" fill="#ff4fd8"/>
+    <rect class="arm" x="72" y="258" width="34" height="96" rx="17" fill="url(#g)" style="animation-direction:alternate"/>
+    <rect x="294" y="258" width="34" height="96" rx="17" fill="url(#g)"/>
+    <rect x="145" y="378" width="38" height="46" rx="12" fill="url(#g)"/><rect x="217" y="378" width="38" height="46" rx="12" fill="url(#g)"/>
+  </svg>
+</div></section>
+
+<div class="marquee"><div class="track">
+  <span>LEGO Education</span><span>Scratch</span><span>Python</span><span>Датчики и моторы</span><span>Соревнования</span><span>Инженерное мышление</span><span>Мини-группы</span>
+  <span>LEGO Education</span><span>Scratch</span><span>Python</span><span>Датчики и моторы</span><span>Соревнования</span><span>Инженерное мышление</span><span>Мини-группы</span>
+</div></div>
+
+<section id="about"><div class="wrap">
+  <div class="tag rv">О школе</div>
+  <h2 class="rv">Мы не учим нажимать кнопки.<br><span class="grad">Мы учим создавать.</span></h2>
+  <p class="lead rv">К концу обучения дети строят более 200 роботов и программируют собственные игры. Кем стать — изобретателем, инженером или программистом — они выберут сами.</p>
+  <div class="grid g4">
+    <div class="card rv"><div class="ico">🧠</div><h3>Логика</h3><p>Развиваем логическое и пространственное мышление.</p></div>
+    <div class="card rv"><div class="ico">⚙️</div><h3>Конструирование</h3><p>Собираем механизмы и понимаем, как работает мир.</p></div>
+    <div class="card rv"><div class="ico">💻</div><h3>Код</h3><p>От блоков до настоящих языков программирования.</p></div>
+    <div class="card rv"><div class="ico">🚀</div><h3>Мотивация</h3><p>Целеустремлённость и ранний выбор профессии.</p></div>
+  </div>
+</div></section>
+
+<section id="courses"><div class="wrap">
+  <div class="tag rv">Направления</div>
+  <h2 class="rv">Выберите свой путь</h2>
+  <div class="grid g2">
+    <div class="card big rv"><div class="ico">🤖</div><h3>Робототехника</h3><p>Конструирование и программирование роботов в игровой форме.</p>
+      <div class="chips"><span>6–14 лет</span><span>LEGO</span><span>Датчики</span></div>
+      <div class="price">5 000 ₽ <small>/ 4 занятия в месяц</small></div><small style="color:var(--mute)">1 раз в неделю · 80 минут</small></div>
+    <div class="card big rv"><div class="ico">👾</div><h3>Программирование</h3><p>Создаём игры и приложения — крепкая основа для будущего в IT.</p>
+      <div class="chips"><span>8–14 лет</span><span>Scratch</span><span>Python</span></div>
+      <div class="price">5 000 ₽ <small>/ 4 занятия в месяц</small></div><small style="color:var(--mute)">1 раз в неделю · 80 минут</small></div>
+  </div>
+</div></section>
+
+<section id="lessons"><div class="wrap">
+  <div class="tag rv">Как проходят занятия</div>
+  <h2 class="rv">Четыре шага к результату</h2>
+  <div class="steps">
+    <div class="step rv"><i>1</i><h3>Сборка</h3><p>Строим робота по схеме и собственной идее</p></div>
+    <div class="step rv"><i>2</i><h3>Программа</h3><p>Оживляем модель блоками и кодом</p></div>
+    <div class="step rv"><i>3</i><h3>Тесты</h3><p>Экспериментируем и ищем улучшения</p></div>
+    <div class="step rv"><i>4</i><h3>Презентация</h3><p>Показываем родителям, получаем наклейки</p></div>
+  </div>
+</div></section>
+
+<section id="why"><div class="wrap">
+  <div class="tag rv">Преимущества</div>
+  <h2 class="rv">8 причин выбрать нас</h2>
+  <div class="grid g4" id="reasons"></div>
+</div></section>
+
+<section id="contact"><div class="wrap">
+  <div class="formbox rv">
+    <div>
+      <div class="tag">Запись</div>
+      <h2>Первое занятие — <span class="grad">бесплатно</span></h2>
+      <p class="lead">Оставьте заявку, и мы перезвоним, подберём группу и время.</p>
+      <p style="margin-top:24px;color:var(--mute)">📍 г. Самара, ул. Примерная, 1<br>📞 +7 (000) 000-00-00<br>💬 Telegram · WhatsApp</p>
+    </div>
+    <form id="f">
+      <input required placeholder="Имя родителя">
+      <input required type="tel" placeholder="Телефон">
+      <select><option>Возраст ребёнка: менее 6</option><option>6–8</option><option>8–10</option><option>10–12</option><option>12–14</option><option>14–16</option></select>
+      <select><option>Робототехника</option><option>Программирование</option></select>
+      <label class="ck"><input required type="checkbox">Согласен на обработку персональных данных</label>
+      <button class="btn" type="submit">Записаться на пробное</button>
+      <div id="ok">Спасибо! Мы скоро свяжемся с вами ✨</div>
+    </form>
+  </div>
+</div></section>
+
+<footer><div class="wrap foot"><div class="logo"><i>🤖</i>РобоМастер</div><div>© 2026 Школа робототехники и программирования</div></div></footer>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+
+// reasons
+const R=["Мини-группы 3–8 детей","Личное рабочее место с оборудованием","Педагоги с техническим образованием","Уютный класс и зона ожидания","Подготовка к конкурсам и конференциям","Программа на 4 года","Перенос пропущенных занятий","Скидка 25% на второй абонемент"];
+$('#reasons').innerHTML=R.map((t,i)=>`<div class="card rv reason"><b class="grad">${i+1}</b><p style="color:var(--text)">${t}</p></div>`).join('');
+
+// reveal
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.style.transitionDelay=(e.target.dataset.d||0)+'ms';e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+$$('.rv').forEach((el,i)=>{el.dataset.d=(i%4)*90;io.observe(el)});
+
+// counters
+$$('[data-n]').forEach(el=>{const n=+el.dataset.n,t0=performance.now()+400;
+  (function f(t){const p=Math.min(Math.max((t-t0)/1600,0),1);el.textContent=Math.round(n*(1-Math.pow(1-p,3)))+(n>100?'+':'');p<1&&requestAnimationFrame(f)})(t0)});
+
+// header, progress, menu
+const hd=$('#hd'),bar=$('#bar');
+addEventListener('scroll',()=>{hd.classList.toggle('s',scrollY>30);bar.style.width=scrollY/(document.body.scrollHeight-innerHeight)*100+'%'},{passive:true});
+$('#bg').onclick=()=>$('#menu').classList.toggle('open');
+$$('#menu a').forEach(a=>a.onclick=()=>$('#menu').classList.remove('open'));
+
+// cursor glow + card spotlight/tilt
+const glow=$('#glow');
+addEventListener('pointermove',e=>{glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px'});
+$$('.card').forEach(c=>{
+  c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+    c.style.setProperty('--mx',x+'px');c.style.setProperty('--my',y+'px');
+    c.style.transform=`perspective(800px) rotateX(${(.5-y/r.height)*8}deg) rotateY(${(x/r.width-.5)*8}deg) translateY(-4px)`});
+  c.addEventListener('pointerleave',()=>c.style.transform='');
+});
+
+// particle network
+const cv=$('#net'),cx=cv.getContext('2d');let W,H,P=[],mouse={x:-999,y:-999};
+function rs(){W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight;P=Array.from({length:Math.min(90,W/16|0)},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5}))}
+rs();addEventListener('resize',rs);
+cv.parentElement.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top});
+(function loop(){cx.clearRect(0,0,W,H);
+  for(const p of P){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+    cx.fillStyle='rgba(0,224,255,.7)';cx.beginPath();cx.arc(p.x,p.y,1.6,0,7);cx.fill()}
+  for(let i=0;i<P.length;i++){for(let j=i+1;j<P.length;j++){const d=Math.hypot(P[i].x-P[j].x,P[i].y-P[j].y);
+      if(d<120){cx.strokeStyle=`rgba(108,92,255,${.35*(1-d/120)})`;cx.beginPath();cx.moveTo(P[i].x,P[i].y);cx.lineTo(P[j].x,P[j].y);cx.stroke()}}
+    const d=Math.hypot(P[i].x-mouse.x,P[i].y-mouse.y);
+    if(d<160){cx.strokeStyle=`rgba(255,79,216,${.5*(1-d/160)})`;cx.beginPath();cx.moveTo(P[i].x,P[i].y);cx.lineTo(mouse.x,mouse.y);cx.stroke()}}
+  requestAnimationFrame(loop)})();
+
+// robot follows mouse slightly
+const rb=$('.robot');
+addEventListener('pointermove',e=>{const x=(e.clientX/innerWidth-.5)*14,y=(e.clientY/innerHeight-.5)*10;rb.style.rotate=x/3+'deg';rb.style.translate=`${x}px ${y}px`});
+
+// form
+$('#f').onsubmit=e=>{e.preventDefault();$('#ok').style.display='block';e.target.reset()};
+</script>
+</body>
+</html>
